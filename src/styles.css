@@ -1,0 +1,164 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource-variable/outfit/wght.css";
+
+@theme {
+  --font-serif: "Fraunces Variable", "Songti SC", "STSong", "PMingLiU", "Noto Serif CJK SC", serif;
+  --font-sans: "Outfit Variable", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --color-ink: #1c2822;
+  --color-cream: #f6f1e6;
+  --color-mist: #e7eee6;
+  --color-moss: #3f6b4e;
+  --color-dune: #c4a574;
+  --radius-card: 1.5rem;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-wrap: pretty;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    overflow-x: clip;
+    font-family: var(--font-sans);
+    background: var(--color-ink);
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-moss) 32%, var(--color-cream));
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .dock-pad {
+    padding-bottom: calc(11rem + env(safe-area-inset-bottom));
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .wrap {
+    @apply mx-4 md:mx-auto md:w-full md:max-w-3xl;
+  }
+
+  .panel {
+    @apply rounded-card bg-cream/92 text-ink backdrop-blur-md;
+  }
+
+  .field {
+    @apply min-h-11 w-full rounded-2xl bg-mist px-4 py-3 text-base text-ink ring-1 ring-ink/10;
+  }
+
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-moss px-5 text-sm text-cream;
+  }
+
+  .btn-ink {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-sm text-cream;
+  }
+
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-mist px-5 text-sm text-ink ring-1 ring-ink/10;
+  }
+
+  .chip {
+    @apply inline-flex min-h-11 items-center rounded-full px-4 text-sm;
+  }
+}
+
+.scene-still {
+  animation: scene-drift 46s ease-in-out infinite alternate;
+}
+
+.scene-vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 42%,
+    color-mix(in oklab, var(--color-ink) 42%, transparent) 100%
+  );
+}
+
+.scene-grain {
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+  background-image: radial-gradient(var(--color-ink) 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+  animation: grain-shift 0.45s steps(2) infinite;
+}
+
+.petal {
+  position: absolute;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-cream) 72%, var(--color-dune));
+  opacity: 0.72;
+  animation-name: blow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.petal:nth-child(3n) {
+  background: color-mix(in oklab, var(--color-dune) 70%, var(--color-cream));
+}
+
+.petal:nth-child(1) { top: 18%; left: -8%; width: 0.45rem; height: 0.7rem; animation-duration: 22s; animation-delay: -4s; }
+.petal:nth-child(2) { top: 36%; left: -12%; width: 0.35rem; height: 0.55rem; animation-duration: 27s; animation-delay: -12s; }
+.petal:nth-child(3) { top: 58%; left: -6%; width: 0.5rem; height: 0.75rem; animation-duration: 19s; animation-delay: -8s; }
+.petal:nth-child(4) { top: 72%; left: -14%; width: 0.3rem; height: 0.5rem; animation-duration: 24s; animation-delay: -16s; }
+.petal:nth-child(5) { top: 12%; left: -10%; width: 0.4rem; height: 0.6rem; animation-duration: 30s; animation-delay: -2s; }
+.petal:nth-child(6) { top: 48%; left: -18%; width: 0.28rem; height: 0.45rem; animation-duration: 21s; animation-delay: -18s; }
+.petal:nth-child(7) { top: 80%; left: -8%; width: 0.42rem; height: 0.62rem; animation-duration: 26s; animation-delay: -6s; }
+.petal:nth-child(8) { top: 26%; left: -16%; width: 0.33rem; height: 0.5rem; animation-duration: 18s; animation-delay: -11s; }
+
+@keyframes scene-drift {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to { transform: scale(1.1) translate3d(-1.5%, -1%, 0); }
+}
+
+@keyframes blow {
+  0% { transform: translate3d(0, 0, 0) rotate(-16deg); }
+  100% { transform: translate3d(118vw, 10vh, 0) rotate(48deg); }
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-2px, 1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-still,
+  .petal,
+  .scene-grain {
+    animation: none;
+  }
+
+  .petal {
+    display: none;
+  }
+}
