@@ -22,6 +22,13 @@
 
 ## 域名已经在 Cloudflare
 
-1. 发布这个网站。
-2. 到 Cloudflare 里你的域名 → DNS → 添加 CNAME，指到发布后的地址。
-3. 若要用 Cloudflare Pages 从本仓库构建：构建命令 `npm run build`。这是完整网站，不是纯静态文件夹。Pages 若构建失败，就用上面的「发布 + DNS」，解析仍然在 Cloudflare。
+用 Workers，不用 Pages。在 Cloudflare 里连 GitHub 仓库 `zhoushengan1/successful`，生产分支 `main`。表单保持这些值，然后部署：
+
+| 项 | 值 |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Preview command | `npx wrangler preview` |
+| Protect with Cloudflare Access | 关闭 |
+
+构建会生成 Worker 配置，名字是 `successful`。部署成功后先打开 `successful.<你的子域>.workers.dev`。能打开再去该项目的设置里加自定义域。域名的名称服务器已经在 Cloudflare，确认后它会自己写 DNS。

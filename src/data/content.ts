@@ -87,9 +87,9 @@ export const seedSkills: Skill[] = [
 
 第二，站名、域名、邮箱、价格、收款链接，先在「驻留」里填好并保存，再点复制。到 GitHub 打开 src/site.config.ts，把对应字符串换掉。只保存在手机里的草稿，别的访客看不到。
 
-第三，名称服务器已经在 Cloudflare。网站发布之后，到该域名的 DNS 里加一条 CNAME，把主机名指到发布地址。访客走你的域名，解析仍在 Cloudflare。
+第三，在 Cloudflare 用 Workers 连接 GitHub 仓库 zhoushengan1/successful，分支 main。构建命令 npm run build，部署命令 npx wrangler deploy。不要改去 Pages。Protect with Cloudflare Access 保持关闭。
 
-若你更想用 Cloudflare Pages 直接构建这个 GitHub 仓库：构建命令用 npm run build。这是一个完整网站，不是一个静态文件夹。Pages 若报错，就改走发布加 DNS，不要卡在那里。
+部署成功后，先打开 workers.dev 的地址。能打开，再在这个 Worker 里添加你的自定义域。名称服务器已经在 Cloudflare，它会自己写 DNS。
 
 上传之前看一眼 public/audio 里的说明。没有权利的文件，不要放上去。`,
   },
