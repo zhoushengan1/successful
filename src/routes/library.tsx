@@ -51,8 +51,8 @@ function LibraryPage() {
 
   return (
     <div className="pb-8">
-      <PageIntro kicker="库藏" title="一份会呼吸的索引">
-        每条链接只回答一件事：下次因为什么打开它。增删都先留在这台手机，记得导出备份。
+      <PageIntro kicker="库藏" title="挑过的资料">
+        每条只留会再打开的理由。按效率、设计、学习、商业、开发来找。
       </PageIntro>
       <div className="wrap mt-4 grid gap-3">
         <input className="field" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索名字或笔记" />

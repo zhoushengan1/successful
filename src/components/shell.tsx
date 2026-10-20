@@ -10,8 +10,8 @@ const links = [
   { to: "/", label: "山丘", icon: Mountain, exact: true },
   { to: "/tools", label: "器具", icon: Wrench, exact: false },
   { to: "/library", label: "库藏", icon: Library, exact: false },
-  { to: "/skills", label: "手艺", icon: Feather, exact: false },
-  { to: "/atelier", label: "驻留", icon: Compass, exact: false },
+  { to: "/skills", label: "方法", icon: Feather, exact: false },
+  { to: "/atelier", label: "关于", icon: Compass, exact: false },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {

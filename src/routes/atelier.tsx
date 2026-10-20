@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { AUDIO_SRC, SONG, type SiteProfile } from "@/site.config";
+import { AUDIO_SRC, DEFAULT_ABOUT, SONG, type SiteProfile } from "@/site.config";
 import { PageIntro } from "@/components/ui";
 import {
   cleanDomain,
@@ -72,45 +72,52 @@ function AtelierPage() {
 
   return (
     <div className="pb-10">
-      <PageIntro kicker="驻留" title="先免费使用，再慢慢收费">
-        价格和收款链接空着时，这里不会假装能付款。填好的草稿只在这台手机。要让所有访客看到，复制配置，写回 src/site.config.ts，再发布。
+      <PageIntro kicker="关于" title={saved.name || "青屿"}>
+        {saved.about || DEFAULT_ABOUT}
       </PageIntro>
 
-      <section className="wrap mt-4 grid gap-3 md:grid-cols-3">
-        <Tier name="过路" price="免费" note="全部器具、公开库藏、手艺正文。" />
-        <Tier name="驻山" price={priceLabel(saved.monthlyPrice)} note="月。适合以后放你每月更新的一份方法。" period={saved.monthlyPrice ? "每月" : ""} />
-        <Tier name="私藏" price={priceLabel(saved.yearlyPrice)} note="年。适合以后留一次你亲自看过的清单。" period={saved.yearlyPrice ? "每年" : ""} />
-      </section>
+      {saved.monthlyPrice || saved.yearlyPrice ? (
+        <section className="wrap mt-4 grid gap-3 md:grid-cols-3">
+          <Tier name="免费" price="现在" note="器具、库藏和方法都可以直接用。" />
+          {saved.monthlyPrice ? (
+            <Tier name="月度" price={priceLabel(saved.monthlyPrice)} note="按月。" period="每月" />
+          ) : null}
+          {saved.yearlyPrice ? (
+            <Tier name="年度" price={priceLabel(saved.yearlyPrice)} note="按年。" period="每年" />
+          ) : null}
+        </section>
+      ) : null}
 
-      <section className="panel wrap mt-4 grid gap-3 p-5">
-        {pay ? (
-          <a className="btn" href={pay} target="_blank" rel="noreferrer">
-            去收款页
-          </a>
-        ) : (
-          <p className="text-sm leading-relaxed">收款链接还空着。填好并发布之后，这里会变成一扇真的门。</p>
-        )}
-        {mail ? (
-          <a className="btn-ghost" href={`mailto:${mail}?subject=${encodeURIComponent(`${saved.name} 驻留`)}`}>
-            写信
-          </a>
-        ) : null}
-        {saved.social ? <p className="text-sm">{saved.social}</p> : null}
-        <p className="text-xs text-ink/70">{saved.domain ? saved.domain : "域名待填写"}</p>
-      </section>
+      {pay || mail || saved.social ? (
+        <section className="panel wrap mt-4 grid gap-3 p-5">
+          {pay ? (
+            <a className="btn" href={pay} target="_blank" rel="noreferrer">
+              支持
+            </a>
+          ) : null}
+          {mail ? (
+            <a className="btn-ghost" href={`mailto:${mail}?subject=${encodeURIComponent(saved.name)}`}>
+              写信
+            </a>
+          ) : null}
+          {saved.social ? <p className="text-sm">{saved.social}</p> : null}
+        </section>
+      ) : null}
 
-      <section id="audio" className="panel wrap mt-4 scroll-mt-6 p-5">
-        <h2 className="font-serif text-3xl">音频 · 待放入</h2>
-        <p className="mt-3 text-sm leading-relaxed text-ink/75">
-          {SONG.title} · {SONG.artist} · {SONG.album} · {SONG.year}。请把你合法获得的 mp3 放到 public/audio/，文件名必须是 fade-into-you.mp3。不要使用盗链。公开放送给访客前，请确认你有传播授权。
-        </p>
-        <p className="mt-3 text-sm">
-          {audioPhase === "unknown" ? "尚未检测" : audioPhase === "ready" ? "已找到音频" : "还没有找到这个文件"}
-        </p>
-        <button type="button" className="btn mt-4" onClick={detectAudio}>
-          检测音频
-        </button>
-      </section>
+      <details className="wrap mt-6">
+        <summary className="cursor-pointer text-sm text-ink/60">站点设置</summary>
+        <section id="audio" className="panel mt-3 scroll-mt-6 p-5">
+          <h2 className="font-serif text-3xl">背景音乐</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink/75">
+            底部播放的是 {SONG.title}，{SONG.artist}，{SONG.year}。文件放在 public/audio/fade-into-you.mp3。
+          </p>
+          <p className="mt-3 text-sm">
+            {audioPhase === "unknown" ? "尚未检测" : audioPhase === "ready" ? "已找到音频" : "还没有找到这个文件"}
+          </p>
+          <button type="button" className="btn mt-4" onClick={detectAudio}>
+            检测音频
+          </button>
+        </section>
 
       <section id="config" className="panel wrap mt-4 scroll-mt-6 p-5">
         <h2 className="font-serif text-3xl">你要填写的配置</h2>
@@ -169,16 +176,7 @@ function AtelierPage() {
         </div>
         <pre className="mt-4 overflow-x-auto rounded-2xl bg-mist p-4 text-xs leading-relaxed whitespace-pre-wrap">{snippet}</pre>
       </section>
-
-      <section className="panel wrap mt-4 p-5">
-        <h2 className="font-serif text-3xl">用手机接到你的域名</h2>
-        <ol className="mt-3 grid list-decimal gap-3 pl-5 text-sm leading-relaxed">
-          <li>用 GitHub 手机版，把 mp3 上传到仓库的 public/audio/fade-into-you.mp3。</li>
-          <li>把上面复制的配置，替换进 src/site.config.ts 里的 siteConfig。</li>
-          <li>发布网站。你的名称服务器已经在 Cloudflare，到该域名的 DNS 添加 CNAME，把记录指到发布后的地址。</li>
-          <li>如果改用 Cloudflare Pages 构建这个仓库，构建命令填 npm run build。这不是纯静态文件夹，Pages 若失败，就用第 3 步，域名依然走 Cloudflare。</li>
-        </ol>
-      </section>
+      </details>
     </div>
   );
 }

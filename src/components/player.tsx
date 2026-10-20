@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Pause, Play } from "lucide-react";
 import { useRef, useState } from "react";
 import { AUDIO_SRC, SONG } from "@/site.config";
@@ -57,25 +56,14 @@ export function Player() {
         onEnded={() => setPlaying(false)}
       />
       <div className="flex items-center gap-3 px-4 pt-3">
-        {phase === "missing" ? (
-          <Link
-            to="/atelier"
-            hash="audio"
-            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-moss text-xs text-cream"
-            aria-label="去放入音频"
-          >
-            放入
-          </Link>
-        ) : (
-          <button
-            type="button"
-            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-moss text-cream"
-            onClick={toggle}
-            aria-label={playing ? "暂停" : "播放 Fade Into You"}
-          >
-            {playing ? <Pause className="size-5" /> : <Play className="size-5 translate-x-px" />}
-          </button>
-        )}
+        <button
+          type="button"
+          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-moss text-cream"
+          onClick={toggle}
+          aria-label={playing ? "暂停" : "播放 Fade Into You"}
+        >
+          {playing ? <Pause className="size-5" /> : <Play className="size-5 translate-x-px" />}
+        </button>
         <div className="min-w-0 flex-1">
           <p className="truncate font-serif text-lg leading-tight">{SONG.title}</p>
           <p className="truncate text-xs text-cream/80">

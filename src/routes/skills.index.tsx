@@ -31,13 +31,13 @@ function SkillsPage() {
     });
     setForm({ title: "", summary: "", tag: "笔记", body: "" });
     setOpen(false);
-    flash("已写进手艺");
+    flash("已保存");
   }
 
   return (
     <div className="pb-8">
-      <PageIntro kicker="手艺" title="可以慢慢拿去收费的方法">
-        这些正文现在免费读。以后真正收费的，是你继续写下去的判断，不是把链接堆长。
+      <PageIntro kicker="方法" title="读完可以照着做">
+        短文，不是课程。讲的是怎么把一件事做完。
       </PageIntro>
       <div className="wrap mt-4 grid gap-3">
         <button type="button" className="btn" onClick={() => setOpen((value) => !value)}>
@@ -79,7 +79,7 @@ function SkillsPage() {
         </ul>
         {confirmReset ? (
           <div className="panel grid gap-3 p-4">
-            <p className="text-sm">恢复最初的六则？你后来写的会从这台手机消失。</p>
+            <p className="text-sm">恢复最初的方法？你后来写的会从这台手机消失。</p>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -99,7 +99,7 @@ function SkillsPage() {
           </div>
         ) : (
           <button type="button" className="btn-ghost" onClick={() => setConfirmReset(true)}>
-            恢复最初的手艺
+            恢复最初的方法
           </button>
         )}
       </div>

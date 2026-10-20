@@ -15,8 +15,8 @@ function ToolsPage() {
 
   return (
     <div>
-      <PageIntro kicker="器具" title="手机上的十件小事">
-        都在这台设备里完成，不需要账号。山丘钟如果正在走，离开这页也会继续。
+      <PageIntro kicker="器具" title="十件打开就能用的小事">
+        计时、整理、换算、计价。不用注册，也不用离开这页去别的网站。
       </PageIntro>
       <ul className="wrap mt-4 grid gap-3 sm:grid-cols-2">
         {tools.map((tool) => (

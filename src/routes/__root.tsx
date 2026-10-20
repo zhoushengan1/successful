@@ -12,7 +12,7 @@ export const Route = createRootRoute({
       { title: "青屿" },
       {
         name: "description",
-        content: "青屿是一座私人工作室。在 Fade Into You 的天气里，收着工具、资源与可以慢慢收费的手艺。",
+        content: "青屿。计时、整理、换算和计价，打开就能用。还有挑过的资料，和能照着做完的方法。",
       },
       { name: "theme-color", content: "#1c2822" },
     ],

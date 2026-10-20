@@ -1,10 +1,28 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { SONG, DEFAULT_ABOUT } from "@/site.config";
+import { DEFAULT_ABOUT } from "@/site.config";
 import { useProfile } from "@/lib/studio";
 
 export const Route = createFileRoute("/")({
   component: Home,
 });
+
+const doors = [
+  {
+    to: "/tools",
+    title: "器具",
+    text: "计时、整理文字、计价、换算。不用注册，点开就用。",
+  },
+  {
+    to: "/library",
+    title: "库藏",
+    text: "效率、设计、学习里会再打开的资料。每条都写了留下的原因。",
+  },
+  {
+    to: "/skills",
+    title: "方法",
+    text: "把一件事做完的短文。读完可以照着做，不是使用说明。",
+  },
+] as const;
 
 function Home() {
   const profile = useProfile();
@@ -22,14 +40,9 @@ function Home() {
         </header>
         <div className="flex-1" />
         <article className="panel mx-auto mb-2 w-full max-w-lg p-6">
-          <p className="text-xs tracking-widest text-moss">
-            {SONG.artist.toUpperCase()} · {SONG.year}
-          </p>
-          <h1 className="mt-2 font-serif text-4xl leading-tight text-ink sm:text-5xl">{SONG.title}</h1>
-          <p className="mt-4 font-serif text-lg leading-snug text-ink">风来的时候，草会先弯下去。</p>
-          <p className="mt-2 text-sm leading-relaxed text-ink/75">
-            {profile.about || DEFAULT_ABOUT}
-          </p>
+          <p className="text-xs tracking-widest text-moss">手头的事</p>
+          <h1 className="mt-2 font-serif text-4xl leading-tight text-ink sm:text-5xl">打开就能用。</h1>
+          <p className="mt-4 text-sm leading-relaxed text-ink/75">{profile.about || DEFAULT_ABOUT}</p>
           <div className="mt-5 grid grid-cols-3 gap-2">
             <Link to="/tools" className="btn w-full">
               器具
@@ -38,27 +51,18 @@ function Home() {
               库藏
             </Link>
             <Link to="/skills" className="btn-ghost w-full">
-              手艺
+              方法
             </Link>
           </div>
         </article>
       </section>
       <section className="wrap mt-8 grid gap-3 pb-8">
-        <div className="panel p-6">
-          <h2 className="font-serif text-3xl">这座山丘做什么</h2>
-          <p className="mt-3 text-sm leading-relaxed text-ink/75">
-            现在就能用的，是十件小工具、一份你自己维护的资源库，和几篇可以拿去收费的方法。会员价格和收款链接先空着，空着就不会假装已经能付款。
-          </p>
-        </div>
-        <div className="panel p-6">
-          <h2 className="font-serif text-3xl">关于这首歌</h2>
-          <p className="mt-3 text-sm leading-relaxed text-ink/75">
-            {SONG.title} 是 {SONG.artist} 收录在 {SONG.album} 里的歌。网站不附带音频。底部的播放器，要等你把合法获得的文件放进站点之后才会出声。把歌公开播放给所有访客，通常还需要授权。
-          </p>
-          <Link to="/atelier" hash="audio" className="btn mt-5">
-            去放入音频
+        {doors.map((door) => (
+          <Link key={door.to} to={door.to} className="panel block p-6">
+            <h2 className="font-serif text-3xl">{door.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink/75">{door.text}</p>
           </Link>
-        </div>
+        ))}
       </section>
     </div>
   );

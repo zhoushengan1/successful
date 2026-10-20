@@ -15,7 +15,7 @@ function SkillPage() {
       <div className="panel wrap mt-8 p-6">
         <h1 className="font-serif text-3xl">这则不在了</h1>
         <Link to="/skills" className="btn mt-5">
-          回到手艺
+          回到方法
         </Link>
       </div>
     );
